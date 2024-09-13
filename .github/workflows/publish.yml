@@ -3,7 +3,7 @@ name: Generate a build and push to another branch
 on:
   push:
     branches:
-      - master # The branch name your are commit the new changes
+      - master # La rama en la que realizas los nuevos cambios
 
 jobs:
   build:
@@ -17,13 +17,18 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build # The build command of your project
+        run: npm run build # El comando de build de tu proyecto
 
-      - name: Push
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push to another branch
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: self
-          BRANCH: master # The branch name where you want to push the assets
-          FOLDER: dist # The directory where your assets are generated
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-          MESSAGE: "Build: ({sha}) {msg}" # The commit message
+          BRANCH: deploy-branch # Cambia esto a la rama donde quieras hacer el push
+          FOLDER: dist # El directorio donde se generan los assets
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Aquí usas el token que configuraste como secreto
+          MESSAGE: "Build: ({sha}) {msg}" # El mensaje de commit
