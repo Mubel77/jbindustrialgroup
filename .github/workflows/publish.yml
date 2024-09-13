@@ -26,7 +26,7 @@ jobs:
 
       - name: Push to another branch
         run: |
-          git remote set-url origin https://github.com/Mubel77/jbindustrialgroup
+          git remote set-url origin https://git:${{ secrets.GH_TOKEN }}@github.com/jbindustrialgroup.git
           git add .
           git commit -m "Build: ${{ github.sha }}"
           git push origin master # Cambia a la rama donde quieras hacer el push
