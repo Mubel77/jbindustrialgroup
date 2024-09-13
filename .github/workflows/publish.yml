@@ -25,10 +25,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Push to another branch
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: master  # Cambia esto a la rama donde quieras hacer el push
-          FOLDER: dist # El directorio donde se generan los assets
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Aquí usas el token que configuraste como secreto
-          MESSAGE: "Build: ({sha}) {msg}" # El mensaje de commit
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Mubel77/jbindustrialgroup.git
+          git add .
+          git commit -m "Build: ${{ github.sha }}"
+          git push origin master # Cambia a la rama donde quieras hacer el push
